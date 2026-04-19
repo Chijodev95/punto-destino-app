@@ -1,43 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useNavbar } from '@/hooks/useNavbar'
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState('')
-  const [menuOpen, setMenuOpen] = useState(false)
-
-  useEffect(() => {
-    // Scroll reveal
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-            revealObserver.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-    )
-    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el))
-
-    // Active section observer
-    const sections = document.querySelectorAll('section[id]')
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id)
-        })
-      },
-      { threshold: 0.4 }
-    )
-    sections.forEach((s) => sectionObserver.observe(s))
-
-    return () => {
-      revealObserver.disconnect()
-      sectionObserver.disconnect()
-    }
-  }, [])
+  const { scrolled, menuOpen, activeSection, setMenuOpen, toggleMenu } = useNavbar()
 
   const navLinks = [
     { href: '#why', label: 'Por qué nosotros' },
@@ -51,7 +17,7 @@ export default function Home() {
       <a className="skip-link" href="#main">Ir al contenido principal</a>
 
       {/* ── NAVBAR ── */}
-      <nav className="navbar" aria-label="Navegación principal">
+      <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`} aria-label="Navegación principal">
         <div className="container navbar__inner">
           <a href="/" className="navbar__logo" aria-label="Punto Destino — Inicio">
             PUNTO <span className="logo-accent">DESTINO</span>
@@ -77,10 +43,11 @@ export default function Home() {
           </div>
 
           <button
-            className="navbar__hamburger"
+            className={`navbar__hamburger${menuOpen ? ' navbar__hamburger--open' : ''}`}
             aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú de navegación'}
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
+            aria-controls="mobile-menu"
+            onClick={toggleMenu}
           >
             <span />
             <span />
@@ -89,7 +56,7 @@ export default function Home() {
         </div>
 
         {/* Mobile menu */}
-        <div className={`navbar__mobile-menu${menuOpen ? ' open' : ''}`}>
+        <div id="mobile-menu" className={`navbar__mobile-menu${menuOpen ? ' open' : ''}`}>
           {navLinks.map(({ href, label }) => (
             <a
               key={href}
@@ -100,7 +67,7 @@ export default function Home() {
               {label}
             </a>
           ))}
-          <a href="#" className="btn btn--primary" style={{ marginTop: '0.5rem' }}>
+          <a href="#" className="btn btn--primary navbar__mobile-cta">
             Enviar Ahora
           </a>
         </div>

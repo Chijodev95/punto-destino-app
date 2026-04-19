@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
-import { Barlow, Barlow_Condensed } from 'next/font/google'
+import { Barlow, Barlow_Condensed, Geist } from 'next/font/google'
 import './globals.css'
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const barlow = Barlow({
   subsets: ['latin'],
@@ -26,7 +29,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className={`${barlow.variable} ${barlowCondensed.variable}`}>
+    <html lang="es" className={cn(barlow.variable, barlowCondensed.variable, "font-sans", geist.variable)}>
       <head>
         <link
           rel="stylesheet"
