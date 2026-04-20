@@ -1,6 +1,7 @@
 'use client'
 
 import { useNavbar } from '@/hooks/useNavbar'
+import { ServicesAccordion } from '@/components/ServicesAccordion'
 
 export default function Home() {
   const { scrolled, menuOpen, activeSection, setMenuOpen, toggleMenu } = useNavbar()
@@ -210,62 +211,8 @@ export default function Home() {
         </section>
 
         {/* ── SERVICIOS ── */}
-        <section className="section" id="services" aria-labelledby="services-title">
-          <div className="container">
-            <div
-              className="section__header reveal"
-              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}
-            >
-              <div>
-                <span className="badge">Verticales de Servicio</span>
-                <h2 className="section__title" id="services-title">Soluciones de Élite</h2>
-                <p className="section__subtitle">
-                  Modulares, escalables y diseñadas para la complejidad de la logística moderna.
-                </p>
-              </div>
-              <a href="#" className="btn btn--outline" style={{ flexShrink: 0, alignSelf: 'flex-end' }}>
-                Ver tarifas
-                <span className="material-symbols-outlined" aria-hidden="true">north_east</span>
-              </a>
-            </div>
-
-            <div className="services-grid">
-
-              {[
-                {
-                  num: '01', title: 'Same-Day Elite',
-                  desc: 'Entrega garantizada en menos de 4 horas dentro del anillo urbano principal. Ideal para urgencias críticas de alto valor.',
-                  features: ['Monitoreo GPS dedicado', 'Seguro de carga premium'],
-                },
-                {
-                  num: '02', title: 'Business Core',
-                  desc: 'Logística recurrente para PyMEs y E-commerce. Gestión masiva de guías y recolecciones programadas.',
-                  features: ['API de integración directa', 'Facturación consolidada'],
-                },
-                {
-                  num: '03', title: 'Urban Coverage',
-                  desc: 'La mayor red de micro-hubs urbanos para entregas capilares de alta precisión en toda el área metropolitana.',
-                  features: ['100% cobertura metropolitana', 'Flota ecológica disponible'],
-                },
-              ].map((card, i) => (
-                <article key={card.num} className={`service-card reveal${i > 0 ? ` reveal--d${i}` : ''}`}>
-                  <div className="service-card__number" aria-hidden="true">{card.num}</div>
-                  <h3 className="service-card__title">{card.title}</h3>
-                  <p className="service-card__desc">{card.desc}</p>
-                  <ul className="service-card__list" aria-label="Características del servicio">
-                    {card.features.map((f) => (
-                      <li key={f}>
-                        <span className="material-symbols-outlined" aria-hidden="true">check_circle</span>
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="#" className="btn btn--outline">Saber más</a>
-                </article>
-              ))}
-
-            </div>
-          </div>
+        <section className="section section--services-full" id="services" aria-labelledby="services-title">
+          <ServicesAccordion />
         </section>
 
         {/* ── EMPRESAS ── */}
